@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () =>{
     const theRuntime = document.getElementById('runtime')
     const thefilmInfo = document.getElementById('film-info')
     const theShowTime = document.getElementById('showtime')
+    const ticketNo = document.getElementById('ticket-num')
+    
     document.addEventListener('click',handleEvents)
 
     //list a movie
@@ -38,13 +40,13 @@ document.addEventListener('DOMContentLoaded', () =>{
     function handleEvents(e){
         e.preventDefault()
         if(e.target.id === 'movieName'){
-            displayPoster(e.target.dataset.id)
+            movieInfo(e.target.dataset.id)
         }
     }
 
-    //Display Poster function
+    //CLick Movie title to show details
 
-    function displayPoster(id){
+    function movieInfo(id){
         fetch(`http://localhost:3000/myfilms/${id}`)
         .then(res => res.json())
         .then(movie => {
@@ -53,6 +55,16 @@ document.addEventListener('DOMContentLoaded', () =>{
             theRuntime.innerHTML = movie.runtime + ' minutes'
             thefilmInfo.innerHTML = movie.description
             theShowTime.innerHTML = movie.showtime
+
+            //Buy ticket button click 
+            let availableTicket = (movie.capacity - movie.tickets_sold)
+            ticketNo.innerHTML = availableTicket
+            document.querySelector('#buy-ticket').addEventListener('click',() =>{
+                
+                if(availableTicket > 0){
+                    ticketNo.innerHTML = --availableTicket
+                }
+            })
         })
     }
 
