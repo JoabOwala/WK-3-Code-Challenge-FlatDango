@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () =>{
-    console.log('DOM is ready')
 
+    const url = `http://localhost:3000/films`
+    
     //Delete existing <li> Movie titles will go here.</li>
     const rem = document.querySelector('li:first-child')
     rem.remove()
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     const thefilmInfo = document.getElementById('film-info')
     const theShowTime = document.getElementById('showtime')
     const ticketNo = document.getElementById('ticket-num')
-    
+
     document.addEventListener('click',handleEvents)
 
     //list a movie
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     //Itterate through renderAllMovies to display
     //a list of all movies
 
-    fetch('http://localhost:3000/myfilms')
+    fetch(url)
     .then(res => res.json())
     .then(movies => movies.forEach(movie => renderAllMovies(movie)))
 
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     //CLick Movie title to show details
 
     function movieInfo(id){
-        fetch(`http://localhost:3000/myfilms/${id}`)
+        fetch(url + `/${id}`)
         .then(res => res.json())
         .then(movie => {
             theTitle.innerHTML = movie.title
